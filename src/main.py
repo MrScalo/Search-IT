@@ -4,6 +4,7 @@
 #zacken schnell
 #to lower case
 #minimum ausgabe an items
+#oe to ö
 
 
 #INPUTS
@@ -13,7 +14,7 @@ user_input = input("Search: ")
 
 #CONFIGURATION
 char_r = 5
-char_f = -5
+char_first = 2
 
 
 def search(items, score, input):
@@ -30,8 +31,17 @@ def score(items, raw_input):
 
         for char in input.lower():
             input_check += char
+
             if input_check in word:
                 count += char_r
+                if len(input_check) == 1:
+                    count += char_first
+
+            elif len(input_check) >= 3:
+                for index in range(len(input_check)):
+                    to_check = input_check[:index] + input_check[(index + 1):]
+                    if to_check in word:
+                        count += char_r
 
         print(count)
 
@@ -40,3 +50,4 @@ def score(items, raw_input):
 
 
 score(items, user_input)
+
