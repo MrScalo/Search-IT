@@ -17,9 +17,16 @@ char_r = 5
 char_first = 2
 
 
-def search(items, input):
-    print(score(items, input))
-    
+def search(items, input, only_id, amount):
+    score_list = score(items, input)
+    output = []
+    if only_id:
+        for index in range(amount):
+            output.append(score_list[index][1])
+    else:
+        for index in range(amount):
+            output.append(score_list[index])
+    return output
 
 
 def score(items, raw_input):
@@ -80,5 +87,5 @@ def score(items, raw_input):
 
 
 
-search(items, user_input)
+search(items, user_input, False, 2)
 
