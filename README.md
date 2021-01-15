@@ -1,6 +1,6 @@
 # Search-IT
 
-Is a really really fast search algorithm. Use it for ever you want. Servus!
+Is a really really fast search algorithm. Use it for everything you want. Servus!
 
 # Use it like this
 
