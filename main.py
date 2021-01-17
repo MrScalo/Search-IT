@@ -47,42 +47,48 @@ class Search_it:
             count_2 = 0
             word = item[0].lower()
             input_check = ''
+            word_possible = True
 
             for char in input.lower():
-                input_check += char
+                if word_possible:
+                    input_check += char
 
-                #Phrase in word
-                if input_check in word:
-                    count_1 = 0
-                    count_1 += self.char_r * len(input_check) + self.word_comp
-                    
-                    #Split word on space and check first char
-                    word_check_split = word.split()
-                    i = 0
-                    for e in word_check_split:
-                        if e.find(input_check) == 0:
-                            count_1 += self.char_first
-                            if i == 0:
-                                count_1 += 1
-                        i += 1
-
-                #Phrase without one char in word
-                elif len(input_check) >= 3:
-                    for index in range(len(input_check)):
-                        to_check = input_check[:index] + input_check[(index + 1):]
-                        if to_check in word:
-                            count_2 = 0
-                            count_2 += self.char_r * len(input_check) - self.char_r
-
-                            #Split word on space and check first char
-                            word_check_split = word.split()
-                            i = 0
-                            for e in word_check_split:
-                                if e.find(input_check) == 0:
-                                    count_1 += self.char_first
+                    #Phrase in word
+                    if input_check in word:
+                        count_1 = 0
+                        count_1 += self.char_r * len(input_check) + self.word_comp
+                            
+                        #Split word on space and check first char
+                        word_check_split = word.split()
+                        i = 0
+                        for e in word_check_split:
+                            if e.find(input_check) == 0:
+                                count_1 += self.char_first
                                 if i == 0:
                                     count_1 += 1
-                                i += 1
+                            i += 1
+
+                    #Phrase without one char in word
+                    elif len(input_check) >= 3:
+                        for index in range(len(input_check)):
+                            to_check = input_check[:index] + input_check[(index + 1):]
+                            if to_check in word:
+                                count_2 = 0
+                                count_2 += self.char_r * len(input_check) - self.char_r
+
+                                #Split word on space and check first char
+                                word_check_split = word.split()
+                                i = 0
+                                for e in word_check_split:
+                                    if e.find(input_check) == 0:
+                                        count_1 += self.char_first
+                                    if i == 0:
+                                        count_1 += 1
+                                    i += 1
+                            else:
+                                word_possible = False
+                    else:
+                        word_possible = False
 
             if count_1 >= count_2:
                 count = count_1
