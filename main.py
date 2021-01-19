@@ -4,9 +4,9 @@ example_input = "Fra"
 
 
 class Search_it:
-    def __init__(self, items, input):
+    def __init__(self, items, inputs):
         self.items = items
-        self.input = input
+        self.inputs = inputs
 
     #Standart variables
     only_id = False
@@ -14,9 +14,10 @@ class Search_it:
     fill_empty = False
 
     #CONFIGURATION
-    char_r = 5
-    char_first = 7
-    word_comp = 1
+    __char_r = 5
+    __char_first = 7
+    __word_comp = 1
+    __umlauts = [['oe', 'ue', 'ae', 'ss'], ['ö', 'ü', 'ä', 'ß']]
 
     def search(self):
         score_list = self.__score()
@@ -38,32 +39,36 @@ class Search_it:
 
 
     def __score(self):
-        input = self.input.lower()
+        inputs = self.inputs.lower()
+        inputs = self.__remove_umlauts(inputs)
+
         new_list = []
 
         for item in self.items:
             count = 0
             count_1 = 0
             count_2 = 0
-            word = item[0].lower()
             input_check = ''
             word_possible = True
+            word = item[0].lower()
+            
+            word = self.__remove_umlauts(word)
 
-            for char in input.lower():
+            for char in inputs.lower():
                 if word_possible:
                     input_check += char
 
                     #Phrase in word
                     if input_check in word:
                         count_1 = 0
-                        count_1 += self.char_r * len(input_check) + self.word_comp
+                        count_1 += self.__char_r * len(input_check) + self.__word_comp
                             
                         #Split word on space and check first char
                         word_check_split = word.split()
                         i = 0
                         for e in word_check_split:
                             if e.find(input_check) == 0:
-                                count_1 += self.char_first
+                                count_1 += self.__char_first
                                 if i == 0:
                                     count_1 += 1
                             i += 1
@@ -74,14 +79,14 @@ class Search_it:
                             to_check = input_check[:index] + input_check[(index + 1):]
                             if to_check in word:
                                 count_2 = 0
-                                count_2 += self.char_r * len(input_check) - self.char_r
+                                count_2 += self.__char_r * len(input_check) - self.__char_r
 
                                 #Split word on space and check first char
                                 word_check_split = word.split()
                                 i = 0
                                 for e in word_check_split:
                                     if e.find(input_check) == 0:
-                                        count_1 += self.char_first
+                                        count_1 += self.__char_first
                                     if i == 0:
                                         count_1 += 1
                                     i += 1
@@ -104,3 +109,12 @@ class Search_it:
         new_list.sort(key=takeCount, reverse=True)
 
         return new_list
+
+
+    def __remove_umlauts(self, word):
+        i = 0
+        for u in self.__umlauts[0]:
+            if u in word:
+                word = word.replace(u, self.__umlauts[1][i])
+            i +=1
+        return word
