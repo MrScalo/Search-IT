@@ -1,4 +1,4 @@
-# Search-IT
+# Search-IT (BETA)
 
 Is a really really fast search algorithm. Use it for everything you want. Servus!
 
